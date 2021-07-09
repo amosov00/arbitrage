@@ -1,0 +1,22 @@
+{
+  "name": "cracken-bot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "serve": "nodemon main.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@tinkoff/invest-openapi-js-sdk": "^1.5.0",
+    "node-telegram-bot-api": "^0.53.0"
+  },
+  "devDependencies": {
+    "axios": "^0.21.1",
+    "jsonwebtoken": "^8.5.1",
+    "nodemon": "^2.0.8",
+    "puppeteer": "^10.1.0"
+  }
+}
