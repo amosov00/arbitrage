@@ -38,7 +38,14 @@ async function init(P2PSchemeCalc) {
                 break;
             default:
                 if (telegramState.state[event.chat.id] === '/schema/p2p') {
-                    const {procent, input, output} = await P2PSchemeCalc(event.text)
+                    console.time('FirstWay');
+                    const calcResponse = await P2PSchemeCalc(parseInt(event.text))
+                    console.timeEnd('FirstWay')
+                    if (!calcResponse) {
+                        await bot.sendMessage(event.chat.id, 'нет ордеров по такой цене')
+                        return
+                    }
+                    const {procent, input, output} = calcResponse
                     await bot.sendMessage(event.chat.id, `На входе: ${input}₽\nНа выходе: ${output}₽\nПроцент к банку: ${procent}%`, schemeButtons)
                     return
                 }

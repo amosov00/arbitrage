@@ -4,14 +4,16 @@
   "description": "",
   "main": "main.js",
   "scripts": {
-    "serve": "nodemon main.js"
+    "serve": "nodemon --max-old-space-size=4096 main.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@tinkoff/invest-openapi-js-sdk": "^1.5.0",
-    "node-telegram-bot-api": "^0.53.0"
+    "lodash": "^4.17.21",
+    "node-telegram-bot-api": "^0.53.0",
+    "paralleljs": "^1.1.0"
   },
   "devDependencies": {
     "axios": "^0.21.1",
