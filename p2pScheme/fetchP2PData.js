@@ -1,8 +1,5 @@
 const https = require("https");
-const _ = require("lodash")
-const { Worker } = require('worker_threads')
-const {fork} = require('child_process')
-const {calcMiddlePriceInCombination} = require("./utils.js")
+const {calcMiddlePriceInCombination, sortWorkerCreate, calcMiddlePriceInCombinationWorker} = require("./utils.js")
 
 function fetchP2PData(page) {
     return new Promise((resolve, reject) => {
@@ -68,7 +65,17 @@ async function fetchAllData(amountIn) {
 async function findBestTrade(amountIn) {
     const rawAdvs = await fetchAllData(amountIn)
     const allAdvs = rawAdvs.filter(e => e.adv.minSingleTransAmount <= amountIn)
-        .map(e => e.adv)
+        .map(e => {
+            e.adv.nickName = e.advertiser.nickName
+            e.adv.userNo = e.advertiser.userNo
+            e.adv.prices = [{
+                value: +e.adv.dynamicMaxSingleTransAmount / +e.adv.price,
+                rate: e.adv.price,
+                available: e.adv.tradableQuantity,
+                nickName: e.adv.nickName,
+            }]
+            return e.adv
+        })
     const allCombinationOfTwo = []
     const allCombinationOfThree = []
     const allCombinationOfFour = []
@@ -80,7 +87,10 @@ async function findBestTrade(amountIn) {
     const rates = []
 
     if (allAdvs.length === 0) {
-        return null
+        return {
+            price: null,
+            prices: null
+        }
     }
     allAdvs.forEach((item, index) => {
         allAdvs.forEach((i, ind) => {
@@ -158,74 +168,27 @@ async function findBestTrade(amountIn) {
         }
     })
 
-   // allCombinationOfFour.forEach((item, index) => {
-   //      console.log(index, 'calculate middle price allCombinationOfFour')
-   //      const response = calcMiddlePriceInCombination(item, amountIn)
-   //      if (response) {
-   //          rates.push(response)
-   //      }
-   //  })
-    const allCombinationOfFourChuncked = _.chunk(allCombinationOfFour, Math.floor(allCombinationOfFour.length / 4))
-
-    const worker1 = fork('./p2pScheme/workers/process1.js');
-    const worker2 = fork('./p2pScheme/workers/process2.js');
-    const worker3 = fork('./p2pScheme/workers/process3.js');
-    const worker4 = fork('./p2pScheme/workers/process4.js');
-    worker1.send({
-        allCombinationOfFour: allCombinationOfFourChuncked[0],
-        amountIn
+    allCombinationOfFour.forEach((item, index) => {
+        console.log(index, 'calculate middle price allCombinationOfFour')
+        const response = calcMiddlePriceInCombination(item, amountIn)
+        if (response) {
+            rates.push(response)
+        }
     })
-    worker2.send({
-        allCombinationOfFour: allCombinationOfFourChuncked[1],
-        amountIn
-    })
-    worker3.send({
-        allCombinationOfFour: allCombinationOfFourChuncked[2],
-        amountIn
-    })
-    worker4.send({
-        allCombinationOfFour: allCombinationOfFourChuncked[3],
-        amountIn
-    })
-    const pomise1 = () => {
-        return new Promise((resolve) => {
-            worker1.on('message', (e) => {
-                resolve(e)
-            });
-        })
-    }
-    const pomise2 = () => {
-        return new Promise((resolve) => {
-            worker2.on('message', (e) => {
-                resolve(e)
-            });
-        })
-    }
-    const pomise3 = () => {
-        return new Promise((resolve) => {
-            worker3.on('message', (e) => {
-                resolve(e)
-            });
-        })
-    }
-    const pomise4 = () => {
-        return new Promise((resolve) => {
-            worker4.on('message', (e) => {
-                resolve(e)
-            });
-        })
-    }
 
-
-    const [pomise1Response, pomise2Response, pomise3Response, pomise4Response] = await Promise.all([pomise1(), pomise2(), pomise3(), pomise4()])
-
-    rates.push(...pomise1Response, ...pomise2Response, ...pomise3Response, ...pomise4Response)
-
-    rates.sort((a, b)=> {
+    if (rates.length === 0) {
+        return {
+            price: null,
+            prices: null
+        }
+    }
+    const completeRates = await sortWorkerCreate(rates)
+    completeRates.sort((a, b)=> {
         console.log(`sorting all complete combinations`)
         return a.price - b.price
     })
-    return rates[0].price
+    console.log(rates.length)
+    return rates[0]
 }
 
 module.exports = findBestTrade;

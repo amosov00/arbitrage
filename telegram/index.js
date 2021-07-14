@@ -38,14 +38,23 @@ async function init(P2PSchemeCalc) {
                 break;
             default:
                 if (telegramState.state[event.chat.id] === '/schema/p2p') {
+                    await bot.sendMessage(event.chat.id, 'Подождите, идёт обработка запроса⚙️⚙️⚙️...')
                     console.time('FirstWay');
                     const calcResponse = await P2PSchemeCalc(parseInt(event.text))
                     console.timeEnd('FirstWay')
                     if (!calcResponse) {
-                        await bot.sendMessage(event.chat.id, 'нет ордеров по такой цене')
+                        await bot.sendMessage(event.chat.id, 'ты чё, самый умный, сука? иди работай, а лучше в армию!')
                         return
                     }
-                    const {procent, input, output} = calcResponse
+                    const {procent, input, output, binanceOrders} = calcResponse
+                    for (const order of binanceOrders) {
+                        await bot.sendMessage(event.chat.id, `№${binanceOrders.indexOf(order) + 1}
+                        \nДоступно всего: ${order.available} USDT
+                        \nНадо купить: ${order.value.toFixed(3).replace(/.$/,'')} USDT
+                        \nКурс ордера: ${order.rate}
+                        \nНикнейм продавца: ${order.nickName}
+                        `)
+                    }
                     await bot.sendMessage(event.chat.id, `На входе: ${input}₽\nНа выходе: ${output}₽\nПроцент к банку: ${procent}%`, schemeButtons)
                     return
                 }
