@@ -20,14 +20,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="76b35e6b-20d8-4781-ba5e-7985a8d40db3" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/telegram/utils.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/telegram/workers/p2pWorker.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/main.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/p2pScheme/fetchP2PData.js" beforeDir="false" afterPath="$PROJECT_DIR$/p2pScheme/fetchP2PData.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/p2pScheme/utils.js" beforeDir="false" afterPath="$PROJECT_DIR$/p2pScheme/utils.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/telegram/consts.js" beforeDir="false" afterPath="$PROJECT_DIR$/telegram/consts.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/telegram/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/telegram/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -84,7 +79,7 @@
       <workItem from="1626277185195" duration="16503000" />
       <workItem from="1626339293647" duration="6203000" />
       <workItem from="1626372758332" duration="12762000" />
-      <workItem from="1626422049519" duration="505000" />
+      <workItem from="1626422049519" duration="1331000" />
     </task>
     <servers />
   </component>
