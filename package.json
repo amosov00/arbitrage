@@ -17,7 +17,8 @@
     "@tinkoff/invest-openapi-js-sdk": "^1.5.0",
     "lodash": "^4.17.21",
     "node-telegram-bot-api": "^0.53.0",
-    "paralleljs": "^1.1.0"
+    "paralleljs": "^1.1.0",
+    "axios": "^0.21.1"
   },
   "devDependencies": {
     "axios": "^0.21.1",
