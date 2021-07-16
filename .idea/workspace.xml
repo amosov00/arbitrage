@@ -20,17 +20,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="76b35e6b-20d8-4781-ba5e-7985a8d40db3" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/p2pScheme/workers/calcRatesWorker.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/p2pScheme/workers/sortWorker.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/telegram/utils.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/telegram/workers/p2pWorker.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/main.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/p2pScheme/fetchP2PData.js" beforeDir="false" afterPath="$PROJECT_DIR$/p2pScheme/fetchP2PData.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/p2pScheme/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/p2pScheme/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/p2pScheme/utils.js" beforeDir="false" afterPath="$PROJECT_DIR$/p2pScheme/utils.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/p2pScheme/workers/process1.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/p2pScheme/workers/process2.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/p2pScheme/workers/process3.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/p2pScheme/workers/process4.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/telegram/consts.js" beforeDir="false" afterPath="$PROJECT_DIR$/telegram/consts.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/telegram/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/telegram/index.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -41,6 +37,7 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="HTML File" />
         <option value="JavaScript File" />
       </list>
     </option>
@@ -54,6 +51,7 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="javascript.nodejs.core.library.configured.version" value="14.17.1" />
@@ -84,6 +82,9 @@
       <workItem from="1626084803686" duration="10124000" />
       <workItem from="1626201665419" duration="462000" />
       <workItem from="1626277185195" duration="16503000" />
+      <workItem from="1626339293647" duration="6203000" />
+      <workItem from="1626372758332" duration="12762000" />
+      <workItem from="1626422049519" duration="505000" />
     </task>
     <servers />
   </component>
@@ -103,9 +104,9 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="338" y="155" width="604" height="490" key="find.popup" timestamp="1626281500792">
+    <state x="338" y="155" width="604" height="490" key="find.popup" timestamp="1626422426267">
       <screen x="0" y="0" width="1280" height="800" />
     </state>
-    <state x="338" y="155" width="604" height="490" key="find.popup/0.0.1280.800@0.0.1280.800" timestamp="1626281500792" />
+    <state x="338" y="155" width="604" height="490" key="find.popup/0.0.1280.800@0.0.1280.800" timestamp="1626422426267" />
   </component>
 </project>

@@ -1,5 +1,5 @@
 const https = require("https");
-const {calcMiddlePriceInCombination, sortWorkerCreate, calcMiddlePriceInCombinationWorker} = require("./utils.js")
+const {sortWorkerCreate, calcMiddlePriceInCombinationWorker} = require("./utils.js")
 
 function fetchP2PData(page) {
     return new Promise((resolve, reject) => {
@@ -51,10 +51,10 @@ function fetchP2PData(page) {
 }
 
 
-async function fetchAllData(amountIn) {
+async function fetchAllData() {
     let allOffers = []
     for (let i = 1; i <= 3; i++) {
-        console.log(i, '/', 3)
+        //console.log(i, '/', 3)
         const {data} = await fetchP2PData(i)
         allOffers = [...allOffers, ...data]
     }
@@ -94,7 +94,7 @@ async function findBestTrade(amountIn) {
     }
     allAdvs.forEach((item, index) => {
         allAdvs.forEach((i, ind) => {
-            console.log('generate all combination of two', `${index} / ${allAdvs.length}`, ind)
+            //console.log('generate all combination of two', `${index} / ${allAdvs.length}`, ind)
             if (i.advNo !== item.advNo) {
                 let alreadyUsed = false
                 usedCombinationsOfTwo.forEach((numbers)=>{
@@ -114,7 +114,7 @@ async function findBestTrade(amountIn) {
     })
     allCombinationOfTwo.forEach((item, index) => {
         allAdvs.forEach((i, ind) => {
-            console.log('generate all combination of three', `${index} / ${allCombinationOfTwo.length}`, ind)
+            //console.log('generate all combination of three', `${index} / ${allCombinationOfTwo.length}`, ind)
             if ((i.advNo !== item[0].advNo) && (i.advNo !== item[1].advNo)) {
                 let alreadyUsed = false
                 usedCombinationsOfThree.forEach((numbers)=>{
@@ -136,7 +136,7 @@ async function findBestTrade(amountIn) {
     })
     allCombinationOfThree.forEach((item, index) => {
         allAdvs.forEach((i, ind) => {
-            console.log('generate all combination of four', `${index}/${allCombinationOfThree.length}`, ind)
+            //console.log('generate all combination of four', `${index}/${allCombinationOfThree.length}`, ind)
             if ((i.advNo !== item[0].advNo) && (i.advNo !== item[1].advNo) && (i.advNo !== item[2].advNo)) {
                 allCombinationOfFour.push(
                     [
@@ -148,33 +148,14 @@ async function findBestTrade(amountIn) {
         })
     })
     allAdvs.forEach((item, index) => {
-        console.log(index, 'calculate middle price allAdvs')
+        //console.log(index, 'calculate middle price allAdvs')
         if (item.dynamicMaxSingleTransAmount > amountIn) {
             rates.push(item)
         }
     })
-    allCombinationOfTwo.forEach((item, index) => {
-        console.log(index, 'calculate middle price allCombinationOfTwo')
-        const response = calcMiddlePriceInCombination(item, amountIn)
-        if (response) {
-            rates.push(response)
-        }
-    })
-    allCombinationOfThree.forEach((item, index) => {
-        console.log(index, 'calculate middle price allCombinationOfThree')
-        const response = calcMiddlePriceInCombination(item, amountIn)
-        if (response) {
-            rates.push(response)
-        }
-    })
-
-    allCombinationOfFour.forEach((item, index) => {
-        console.log(index, 'calculate middle price allCombinationOfFour')
-        const response = calcMiddlePriceInCombination(item, amountIn)
-        if (response) {
-            rates.push(response)
-        }
-    })
+    rates.push(...await calcMiddlePriceInCombinationWorker(allCombinationOfTwo, amountIn))
+    rates.push(...await calcMiddlePriceInCombinationWorker(allCombinationOfThree, amountIn))
+    rates.push(...await calcMiddlePriceInCombinationWorker(allCombinationOfFour, amountIn))
 
     if (rates.length === 0) {
         return {
@@ -184,11 +165,10 @@ async function findBestTrade(amountIn) {
     }
     const completeRates = await sortWorkerCreate(rates)
     completeRates.sort((a, b)=> {
-        console.log(`sorting all complete combinations`)
+        //console.log(`sorting all complete combinations`)
         return a.price - b.price
     })
-    console.log(rates.length)
-    return rates[0]
+    return completeRates[0]
 }
 
 module.exports = findBestTrade;

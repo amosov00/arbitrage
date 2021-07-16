@@ -44,7 +44,7 @@ function calcMiddlePriceInCombination(combination, amountIn) {
 }
 
 async function sortWorkerCreate(rates) {
-    const chunckedRates = _.chunk(rates, rates.length / 100)
+    const chunckedRates = _.chunk(rates, rates.length / 15)
     const promises = []
     chunckedRates.forEach((item, index) => {
         const worker = new Worker('./p2pScheme/workers/sortWorker.js', {workerData: {item, index}});
@@ -61,14 +61,14 @@ async function sortWorkerCreate(rates) {
 
 
 async function calcMiddlePriceInCombinationWorker(combinations, amountIn) {
-    const chunckedCombinations = _.chunk(combinations, combinations.length / 4)
+    const chunckedCombinations = _.chunk(combinations, combinations.length / 10)
     const promises = []
     chunckedCombinations.forEach((item) => {
         const worker = new Worker('./p2pScheme/workers/calcRatesWorker.js', {workerData: {item, amountIn}});
         const promise = new Promise((resolve)=>{
-            worker.on('message',async (message) => {
-                await worker.terminate()
+            worker.on('message',(message) => {
                 resolve(message)
+                worker.terminate()
             });
         })
         promises.push(promise)
@@ -76,5 +76,6 @@ async function calcMiddlePriceInCombinationWorker(combinations, amountIn) {
     const rawArray = await Promise.all(promises)
     return rawArray.flat()
 }
+
 
 module.exports = {calcMiddlePriceInCombination, sortWorkerCreate, calcMiddlePriceInCombinationWorker}

@@ -10,7 +10,7 @@ const buttons = {
 const schemeButtons = {
     reply_markup: JSON.stringify({
         inline_keyboard: [
-            [{text: 'назад', callback_data: '/undo'}, {text: 'Подписаться на уведомления', callback_data: '/undo'}],
+            [{text: 'назад', callback_data: '/undo'}, {text: 'Подписаться на уведомления', callback_data: '/subscription'}],
         ]
     })
 }
