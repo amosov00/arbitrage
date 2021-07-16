@@ -2,7 +2,7 @@ const {schemeButtons} = require('./consts.js')
 
 async function sendOrders(calcResponse, chatId, bot) {
     if (!calcResponse) {
-        await bot.sendMessage(chatId, 'ты чё, самый умный, сука? иди работай, а лучше в армию!')
+        await bot.sendMessage(chatId, 'на бинансе нет ордеров по такой сумме')
         return
     }
     const {procent, input, output, binanceOrders} = calcResponse

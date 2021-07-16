@@ -53,7 +53,7 @@ function fetchP2PData(page) {
 
 async function fetchAllData() {
     let allOffers = []
-    for (let i = 1; i <= 3; i++) {
+    for (let i = 1; i <= 4; i++) {
         //console.log(i, '/', 3)
         const {data} = await fetchP2PData(i)
         allOffers = [...allOffers, ...data]
