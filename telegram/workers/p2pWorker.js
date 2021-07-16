@@ -4,7 +4,7 @@ const P2PSchemeCalc = require('../../p2pScheme/index.js')
 
 async function repeat() {
     console.log('-'.repeat(50))
-    console.log(new Date().toLocaleString('ru_RU', {
+    console.log(new Date().toLocaleString('ru', {
         timeZone: 'Europe/Moscow'
     }))
     console.time('скорость обновления')

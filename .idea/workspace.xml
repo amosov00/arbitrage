@@ -21,8 +21,6 @@
   <component name="ChangeListManager">
     <list default="true" id="76b35e6b-20d8-4781-ba5e-7985a8d40db3" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/main.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/telegram/workers/p2pWorker.js" beforeDir="false" afterPath="$PROJECT_DIR$/telegram/workers/p2pWorker.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -81,7 +79,7 @@
       <workItem from="1626339293647" duration="6203000" />
       <workItem from="1626372758332" duration="12762000" />
       <workItem from="1626422049519" duration="2960000" />
-      <workItem from="1626441038850" duration="2496000" />
+      <workItem from="1626441038850" duration="2711000" />
     </task>
     <servers />
   </component>
