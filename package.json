@@ -4,8 +4,7 @@
   "description": "",
   "main": "main.js",
   "scripts": {
-    "serve": "nodemon --max-old-space-size=4096 main.js",
-    "start": "node main"
+    "serve": "nodemon --max-old-space-size=4096 main.js"
   },
   "keywords": [],
   "author": "",

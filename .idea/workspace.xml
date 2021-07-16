@@ -21,7 +21,9 @@
   <component name="ChangeListManager">
     <list default="true" id="76b35e6b-20d8-4781-ba5e-7985a8d40db3" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Procfile" beforeDir="false" afterPath="$PROJECT_DIR$/Procfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/main.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/telegram/workers/p2pWorker.js" beforeDir="false" afterPath="$PROJECT_DIR$/telegram/workers/p2pWorker.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -79,7 +81,7 @@
       <workItem from="1626339293647" duration="6203000" />
       <workItem from="1626372758332" duration="12762000" />
       <workItem from="1626422049519" duration="2960000" />
-      <workItem from="1626441038850" duration="1725000" />
+      <workItem from="1626441038850" duration="2496000" />
     </task>
     <servers />
   </component>
@@ -103,9 +105,9 @@
       <screen x="0" y="0" width="1280" height="800" />
     </state>
     <state x="364" y="209" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1280.800@0.0.1280.800" timestamp="1626427671127" />
-    <state x="338" y="155" width="604" height="490" key="find.popup" timestamp="1626422426267">
+    <state x="338" y="155" width="604" height="490" key="find.popup" timestamp="1626445926537">
       <screen x="0" y="0" width="1280" height="800" />
     </state>
-    <state x="338" y="155" width="604" height="490" key="find.popup/0.0.1280.800@0.0.1280.800" timestamp="1626422426267" />
+    <state x="338" y="155" width="604" height="490" key="find.popup/0.0.1280.800@0.0.1280.800" timestamp="1626445926537" />
   </component>
 </project>

@@ -4,7 +4,9 @@ const P2PSchemeCalc = require('../../p2pScheme/index.js')
 
 async function repeat() {
     console.log('-'.repeat(50))
-    console.log(new Date().toLocaleString())
+    console.log(new Date().toLocaleString('ru_RU', {
+        timeZone: 'Europe/Moscow'
+    }))
     console.time('скорость обновления')
     const calcResponse = await P2PSchemeCalc(parseInt(workerData.amountIn))
     console.timeEnd('скорость обновления')
