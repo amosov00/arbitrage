@@ -20,7 +20,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="76b35e6b-20d8-4781-ba5e-7985a8d40db3" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Procfile" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
     </list>
@@ -79,7 +79,7 @@
       <workItem from="1626277185195" duration="16503000" />
       <workItem from="1626339293647" duration="6203000" />
       <workItem from="1626372758332" duration="12762000" />
-      <workItem from="1626422049519" duration="1331000" />
+      <workItem from="1626422049519" duration="2205000" />
     </task>
     <servers />
   </component>
@@ -99,6 +99,10 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
+    <state x="364" y="209" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1626427671127">
+      <screen x="0" y="0" width="1280" height="800" />
+    </state>
+    <state x="364" y="209" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1280.800@0.0.1280.800" timestamp="1626427671127" />
     <state x="338" y="155" width="604" height="490" key="find.popup" timestamp="1626422426267">
       <screen x="0" y="0" width="1280" height="800" />
     </state>

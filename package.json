@@ -10,6 +10,9 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "engines": {
+    "node": "14.17.1"
+  },
   "dependencies": {
     "@tinkoff/invest-openapi-js-sdk": "^1.5.0",
     "lodash": "^4.17.21",
