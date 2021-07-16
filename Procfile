@@ -1,1 +1,1 @@
-web: node --port $PORT main
+worker: node main
