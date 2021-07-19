@@ -1,5 +1,5 @@
 const https = require("https");
-const {sortWorkerCreate, calcMiddlePriceInCombinationWorker} = require("./utils.js")
+const {sortWorkerCreate, calcMiddlePriceInCombination} = require("./utils.js")
 
 function fetchP2PData(page) {
     return new Promise((resolve, reject) => {
@@ -53,8 +53,7 @@ function fetchP2PData(page) {
 
 async function fetchAllData() {
     let allOffers = []
-    for (let i = 1; i <= 3; i++) {
-        //console.log(i, '/', 3)
+    for (let i = 1; i <= 6; i++) {
         const {data} = await fetchP2PData(i)
         allOffers = [...allOffers, ...data]
     }
@@ -62,9 +61,11 @@ async function fetchAllData() {
 }
 
 
-async function findBestTrade(amountIn) {
-    const rawAdvs = await fetchAllData(amountIn)
-    const allAdvs = rawAdvs.filter(e => e.adv.minSingleTransAmount <= amountIn)
+async function lowCalc(amountIn, limitCombination = 4) {
+    const rawAdvs = await fetchAllData()
+    const completeAdvs = []
+    const advs = rawAdvs
+        .filter(e => e.adv.minSingleTransAmount <= amountIn)
         .map(e => {
             e.adv.nickName = e.advertiser.nickName
             e.adv.userNo = e.advertiser.userNo
@@ -76,99 +77,233 @@ async function findBestTrade(amountIn) {
             }]
             return e.adv
         })
-    const allCombinationOfTwo = []
-    const allCombinationOfThree = []
-    const allCombinationOfFour = []
-
-
-    const usedCombinationsOfTwo = []
-    const usedCombinationsOfThree = []
-
-    const rates = []
-
-    if (allAdvs.length === 0) {
-        return {
-            price: null,
-            prices: null
-        }
-    }
-    allAdvs.forEach((item, index) => {
-        allAdvs.forEach((i, ind) => {
-            //console.log('generate all combination of two', `${index} / ${allAdvs.length}`, ind)
-            if (i.advNo !== item.advNo) {
-                let alreadyUsed = false
-                usedCombinationsOfTwo.forEach((numbers)=>{
-                    if (numbers.includes(i.advNo) && numbers.includes(item.advNo)) {
-                        alreadyUsed = true
+    for (let limitCombinationNumber = 1; limitCombinationNumber <= limitCombination; limitCombinationNumber++) {
+        if (limitCombinationNumber === 1) {
+            let i = 0
+            while (true) {
+                if (advs[i].minSingleTransAmount < amountIn && advs[i].dynamicMaxSingleTransAmount > amountIn) {
+                    completeAdvs.push(calcMiddlePriceInCombination([advs[i]], amountIn))
+                    break
+                }
+                if (i === advs.length - 1) {
+                    break
+                }
+                i++
+            }
+        } else if (limitCombinationNumber === 2) {
+            let index1 = 0
+            let index2 = 1
+            while (true) {
+                let balance = amountIn
+                const combination = [advs[index1], advs[index2]]
+                combination.every((item) => {
+                    if (item.minSingleTransAmount <= balance) {
+                        balance -= item.dynamicMaxSingleTransAmount
+                        if ((balance === 0 || Math.sign(balance) === -1) && item.advNo !== combination[1].advNo) {
+                            if (index2 === advs.length - 1) {
+                                index1++
+                                index2 = index1 + 1
+                            } else {
+                                index2++
+                            }
+                            return false
+                        } else if (Math.sign(balance) === 1 && item.advNo === combination[1].advNo) {
+                            if (index2 === advs.length - 1) {
+                                index1++
+                                index2 = index1 + 1
+                            } else {
+                                index2++
+                            }
+                            return false
+                        } else if ((balance === 0 || Math.sign(balance) === -1) && item.advNo === combination[1].advNo) {
+                            completeAdvs.push(calcMiddlePriceInCombination(combination, amountIn))
+                            index1++
+                            index2 = index1 + 1
+                        } else if (Math.sign(balance) === 1 && item.advNo !== combination[1].advNo) {
+                            return true
+                        }
+                    } else {
+                        if (index2 === advs.length - 1) {
+                            index1++
+                            index2 = index1 + 1
+                        } else {
+                            index2++
+                        }
                     }
                 })
-                if (!alreadyUsed) {
-                    usedCombinationsOfTwo.push([i.advNo, item.advNo])
-                    allCombinationOfTwo.push([
-                        item,
-                        i
-                    ])
+                if (index1 === advs.length - 2 && index2 === advs.length - 1) {
+                    break
                 }
             }
-        })
-    })
-    allCombinationOfTwo.forEach((item, index) => {
-        allAdvs.forEach((i, ind) => {
-            //console.log('generate all combination of three', `${index} / ${allCombinationOfTwo.length}`, ind)
-            if ((i.advNo !== item[0].advNo) && (i.advNo !== item[1].advNo)) {
-                let alreadyUsed = false
-                usedCombinationsOfThree.forEach((numbers)=>{
-                    if (numbers.includes(i.advNo) && numbers.includes(item[0].advNo) && numbers.includes(item[1].advNo)) {
-                        alreadyUsed = true
+        } else if (limitCombinationNumber === 3) {
+            let index1 = 0
+            let index2 = 1
+            let index3 = 2
+            while (true) {
+                let balance = amountIn
+                const combination = [advs[index1], advs[index2], advs[index3]]
+                combination.every((item) => {
+                    if (item.minSingleTransAmount <= balance) {
+                        balance -= +item.dynamicMaxSingleTransAmount
+                        if ((balance === 0 || Math.sign(balance) === -1) && item.advNo !== combination[2].advNo) {
+                            if (index2 === advs.length - 2 && index3 === advs.length - 1) {
+                                index1++
+                                index2 = index1 + 1
+                                index3 = index2 + 1
+                            } else if (index3 === advs.length - 1) {
+                                index2++
+                                index3 = index2 + 1
+                            } else {
+                                index3++
+                            }
+                            return false
+                        } else if (Math.sign(balance) === 1 && item.advNo === combination[2].advNo) {
+                            if (index2 === advs.length - 2 && index3 === advs.length - 1) {
+                                index1++
+                                index2 = index1 + 1
+                                index3 = index2 + 1
+                            } else if (index3 === advs.length - 1) {
+                                index2++
+                                index3 = index2 + 1
+                            } else {
+                                index3++
+                            }
+                            return false
+                        } else if ((balance === 0 || Math.sign(balance) === -1) && item.advNo === combination[2].advNo) {
+                            const e = calcMiddlePriceInCombination(combination, amountIn)
+                            e.indexes = {
+                                index1,
+                                index2,
+                                index3
+                            }
+                            completeAdvs.push(e)
+                            if (index2 === advs.length - 2 && index3 === advs.length - 1) {
+                                index1++
+                                index2 = index1 + 1
+                                index3 = index2 + 1
+                            } else if (index3 === advs.length - 1) {
+                                index2++
+                                index3 = index2 + 1
+                            } else {
+                                index3++
+                            }
+                        } else if (Math.sign(balance) === 1 && item.advNo !== combination[2].advNo) {
+                            return true
+                        }
+                    } else {
+                        if (index2 === advs.length - 2 && index3 === advs.length - 1) {
+                            index1++
+                            index2 = index1 + 1
+                            index3 = index2 + 1
+                        } else if (index3 === advs.length - 1) {
+                            index2++
+                            index3 = index2 + 1
+                        } else {
+                            index3++
+                        }
                     }
                 })
-                if (!alreadyUsed) {
-                    usedCombinationsOfThree.push([i.advNo, item[0].advNo, item[1].advNo])
-                    allCombinationOfThree.push(
-                        [
-                            ...item,
-                            i
-                        ]
-                    )
+                if (index1 === advs.length - 3 && index2 === advs.length - 2 && index3 === advs.length - 1) {
+                    break
                 }
             }
-        })
-    })
-    allCombinationOfThree.forEach((item, index) => {
-        allAdvs.forEach((i, ind) => {
-            //console.log('generate all combination of four', `${index}/${allCombinationOfThree.length}`, ind)
-            if ((i.advNo !== item[0].advNo) && (i.advNo !== item[1].advNo) && (i.advNo !== item[2].advNo)) {
-                allCombinationOfFour.push(
-                    [
-                        ...item,
-                        i
-                    ]
-                )
+        } else if (limitCombinationNumber === 4) {
+            let index1 = 0
+            let index2 = 1
+            let index3 = 2
+            let index4 = 3
+            while (true) {
+                let balance = amountIn
+                const combination = [advs[index1], advs[index2], advs[index3], advs[index4]]
+                combination.every((item) => {
+                    if (item.minSingleTransAmount <= balance) {
+                        balance -= +item.dynamicMaxSingleTransAmount
+                        if ((balance === 0 || Math.sign(balance) === -1) && item.advNo !== combination[3].advNo) {
+                            if (index2 === advs.length - 3 && index3 === advs.length - 2 && index4 === advs.length - 1) {
+                                index1++
+                                index2 = index1 + 1
+                                index3 = index2 + 1
+                                index4 = index3 + 1
+                            } else if (index3 === advs.length - 2 && index4 === advs.length - 1) {
+                                index2++
+                                index3 = index2 + 1
+                                index4 = index3 + 1
+                            } else if (index4 === advs.length - 1) {
+                                index3++
+                                index4 = index3 + 1
+                            } else {
+                                index4++
+                            }
+                            return false
+                        } else if (Math.sign(balance) === 1 && item.advNo === combination[3].advNo) {
+                            if (index2 === advs.length - 3 && index3 === advs.length - 2 && index4 === advs.length - 1) {
+                                index1++
+                                index2 = index1 + 1
+                                index3 = index2 + 1
+                                index4 = index3 + 1
+                            } else if (index3 === advs.length - 2 && index4 === advs.length - 1) {
+                                index2++
+                                index3 = index2 + 1
+                                index4 = index3 + 1
+                            } else if (index4 === advs.length - 1) {
+                                index3++
+                                index4 = index3 + 1
+                            } else {
+                                index4++
+                            }
+                            return false
+                        } else if ((balance === 0 || Math.sign(balance) === -1) && item.advNo === combination[3].advNo) {
+                            completeAdvs.push(calcMiddlePriceInCombination(combination, amountIn))
+                            if (index2 === advs.length - 3 && index3 === advs.length - 2 && index4 === advs.length - 1) {
+                                index1++
+                                index2 = index1 + 1
+                                index3 = index2 + 1
+                                index4 = index3 + 1
+                            } else if (index3 === advs.length - 2 && index4 === advs.length - 1) {
+                                index2++
+                                index3 = index2 + 1
+                                index4 = index3 + 1
+                            } else if (index4 === advs.length - 1) {
+                                index3++
+                                index4 = index3 + 1
+                            } else {
+                                index4++
+                            }
+                        } else if (Math.sign(balance) === 1 && item.advNo !== combination[3].advNo) {
+                            return true
+                        }
+                    } else {
+                        if (index2 === advs.length - 3 && index3 === advs.length - 2 && index4 === advs.length - 1) {
+                            index1++
+                            index2 = index1 + 1
+                            index3 = index2 + 1
+                            index4 = index3 + 1
+                        } else if (index3 === advs.length - 2 && index4 === advs.length - 1) {
+                            index2++
+                            index3 = index2 + 1
+                            index4 = index3 + 1
+                        } else if (index4 === advs.length - 1) {
+                            index3++
+                            index4 = index3 + 1
+                        } else {
+                            index4++
+                        }
+                    }
+                })
+                if (index1 === advs.length - 4 && index2 === advs.length - 3 && index3 === advs.length - 2 && index4 === advs.length - 1) {
+                    break
+                }
             }
-        })
-    })
-    allAdvs.forEach((item, index) => {
-        //console.log(index, 'calculate middle price allAdvs')
-        if (item.dynamicMaxSingleTransAmount > amountIn) {
-            rates.push(item)
-        }
-    })
-    rates.push(...await calcMiddlePriceInCombinationWorker(allCombinationOfTwo, amountIn))
-    rates.push(...await calcMiddlePriceInCombinationWorker(allCombinationOfThree, amountIn))
-    rates.push(...await calcMiddlePriceInCombinationWorker(allCombinationOfFour, amountIn))
-
-    if (rates.length === 0) {
-        return {
-            price: null,
-            prices: null
         }
     }
-    const completeRates = await sortWorkerCreate(rates)
+    const completeRates = await sortWorkerCreate(completeAdvs)
     completeRates.sort((a, b)=> {
-        //console.log(`sorting all complete combinations`)
         return a.price - b.price
     })
     return completeRates[0]
 }
 
-module.exports = findBestTrade;
+
+
+
+module.exports = {lowCalc};

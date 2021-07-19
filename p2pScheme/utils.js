@@ -8,26 +8,22 @@ function calcMiddlePriceInCombination(combination, amountIn) {
     combination.forEach(item => {
         combinationLimit += +item.dynamicMaxSingleTransAmount
     })
-    if (combinationLimit < amountIn) {
-        return false
-    } else {
-        combination.sort((a, b) => +a.price - +b.price)
-        for (let i = 0; i < combination.length; i++) {
-            const orderLimit = +combination[i].dynamicMaxSingleTransAmount
-            const orderRate = +combination[i].price
-            const userNo = combination[i].userNo
-            const available = combination[i].tradableQuantity
-            const nickName = combination[i].nickName
-            const objectRate = combination[i]
-            balance -= orderLimit
-            if (Math.sign(balance) === -1) {
-                prices.push({value: (balance + orderLimit) / orderRate, rate: orderRate, available, nickName, objectRate})
-                break
-            } else if (Math.sign(balance) === 1) {
-                prices.push({value: orderLimit / orderRate, rate: orderRate, available, nickName, objectRate})
-            } else if (Math.sign(balance) === 0) {
-                break
-            }
+    combination.sort((a, b) => +a.price - +b.price)
+    for (let i = 0; i < combination.length; i++) {
+        const orderLimit = +combination[i].dynamicMaxSingleTransAmount
+        const orderRate = +combination[i].price
+        const advNo = combination[i].advNo
+        const available = combination[i].dynamicMaxSingleTransQuantity
+        const nickName = combination[i].nickName
+        balance -= orderLimit
+        if (Math.sign(balance) === -1) {
+            prices.push({value: (balance + orderLimit) / orderRate, rate: orderRate, advNo, available, nickName})
+            break
+        } else if (Math.sign(balance) === 1) {
+            prices.push({value: orderLimit / orderRate, rate: orderRate, advNo, available, nickName})
+        } else if (Math.sign(balance) === 0) {
+            prices.push({value: orderLimit / orderRate, rate: orderRate, advNo, available, nickName})
+            break
         }
     }
 
@@ -35,9 +31,7 @@ function calcMiddlePriceInCombination(combination, amountIn) {
         amountOut += value
     })
 
-
     return {
-        amount: amountOut,
         price: amountIn / amountOut,
         prices
     }
@@ -60,22 +54,6 @@ async function sortWorkerCreate(rates) {
 }
 
 
-async function calcMiddlePriceInCombinationWorker(combinations, amountIn) {
-    const chunckedCombinations = _.chunk(combinations, combinations.length / 10)
-    const promises = []
-    chunckedCombinations.forEach((item) => {
-        const worker = new Worker('./p2pScheme/workers/calcRatesWorker.js', {workerData: {item, amountIn}});
-        const promise = new Promise((resolve)=>{
-            worker.on('message',(message) => {
-                resolve(message)
-                worker.terminate()
-            });
-        })
-        promises.push(promise)
-    })
-    const rawArray = await Promise.all(promises)
-    return rawArray.flat()
-}
 
 
-module.exports = {calcMiddlePriceInCombination, sortWorkerCreate, calcMiddlePriceInCombinationWorker}
+module.exports = {calcMiddlePriceInCombination, sortWorkerCreate}

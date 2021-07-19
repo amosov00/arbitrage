@@ -1,9 +1,9 @@
-const findBestTrade = require('./fetchP2PData.js')
+const {lowCalc} = require('./fetchP2PData.js')
 const {fetchGarantex} = require('./garantex.js')
 const garantexTradeFee = 0.0015
 const binanceUSDTwidthrawFee = 0.8
 async function P2PSchemeCalc(amountRub) {
-    const {price: rateUSDT_binance, prices: binanceOrders} = await findBestTrade(amountRub)
+    const {price: rateUSDT_binance, prices: binanceOrders} = await lowCalc(amountRub, 4)
     if (!rateUSDT_binance) {
         return null
     }
