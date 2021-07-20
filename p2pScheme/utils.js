@@ -38,7 +38,7 @@ function calcMiddlePriceInCombination(combination, amountIn) {
 }
 
 async function sortWorkerCreate(rates) {
-    const chunckedRates = _.chunk(rates, rates.length / 15)
+    const chunckedRates = _.chunk(rates, 9000)
     const promises = []
     chunckedRates.forEach((item, index) => {
         const worker = new Worker('./p2pScheme/workers/sortWorker.js', {workerData: {item, index}});

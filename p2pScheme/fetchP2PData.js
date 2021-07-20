@@ -5,7 +5,7 @@ function fetchP2PData(page) {
     return new Promise((resolve, reject) => {
         const baseObj = {
             page,
-            rows: 10,
+            rows: 20,
             payTypes: [],
             publisherType: null,
             tradeType: 'BUY',
@@ -53,7 +53,7 @@ function fetchP2PData(page) {
 
 async function fetchAllData() {
     let allOffers = []
-    for (let i = 1; i <= 6; i++) {
+    for (let i = 1; i <= 3; i++) {
         const {data} = await fetchP2PData(i)
         allOffers = [...allOffers, ...data]
     }
@@ -65,6 +65,18 @@ async function lowCalc(amountIn, limitCombination = 4) {
     const rawAdvs = await fetchAllData()
     const completeAdvs = []
     const advs = rawAdvs
+        .filter(e => {
+            const isConfirmMethods = []
+            const confirmMethods = ['Tinkoff', 'SBP', 'Sberbank']
+            e.adv.tradeMethods.forEach((method) => {
+                if (confirmMethods.includes(method.payType)) {
+                    isConfirmMethods.push(true)
+                } else {
+                    isConfirmMethods.push(false)
+                }
+            })
+            return isConfirmMethods.includes(true)
+        })
         .filter(e => e.adv.minSingleTransAmount <= amountIn)
         .map(e => {
             e.adv.nickName = e.advertiser.nickName
@@ -77,6 +89,9 @@ async function lowCalc(amountIn, limitCombination = 4) {
             }]
             return e.adv
         })
+    if (advs.length === 0) {
+        return false
+    }
     for (let limitCombinationNumber = 1; limitCombinationNumber <= limitCombination; limitCombinationNumber++) {
         if (limitCombinationNumber === 1) {
             let i = 0
@@ -170,13 +185,7 @@ async function lowCalc(amountIn, limitCombination = 4) {
                             }
                             return false
                         } else if ((balance === 0 || Math.sign(balance) === -1) && item.advNo === combination[2].advNo) {
-                            const e = calcMiddlePriceInCombination(combination, amountIn)
-                            e.indexes = {
-                                index1,
-                                index2,
-                                index3
-                            }
-                            completeAdvs.push(e)
+                            completeAdvs.push(calcMiddlePriceInCombination(combination, amountIn))
                             if (index2 === advs.length - 2 && index3 === advs.length - 1) {
                                 index1++
                                 index2 = index1 + 1
@@ -296,6 +305,7 @@ async function lowCalc(amountIn, limitCombination = 4) {
             }
         }
     }
+    console.log(completeAdvs.length)
     const completeRates = await sortWorkerCreate(completeAdvs)
     completeRates.sort((a, b)=> {
         return a.price - b.price

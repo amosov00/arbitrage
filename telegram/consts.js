@@ -21,7 +21,8 @@ const commands = [
     {command: '/unsub', description: 'отписаться от всех уведомлений'},
 ]
 
-//1774568009:AAGnqXodSjjyayxDWNG3zYSfofeAPAwhMwY
-const token = '1936627336:AAEjTSZIO9mwk_myJDAoyUDEFZN1ZLMG6-0';
+//1774568009:AAGnqXodSjjyayxDWNG3zYSfofeAPAwhMwY production
+//1936627336:AAEjTSZIO9mwk_myJDAoyUDEFZN1ZLMG6-0 test
+const token = '1774568009:AAGnqXodSjjyayxDWNG3zYSfofeAPAwhMwY';
 
 module.exports = {schemeButtons, buttons, commands, token}

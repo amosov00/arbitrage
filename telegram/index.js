@@ -72,9 +72,7 @@ async function init(P2PSchemeCalc) {
             default:
                 if (telegramState.state[event.chat.id].schemaPath === '/schema/p2p') {
                     await bot.sendMessage(event.chat.id, 'Подождите, идёт обработка запроса⚙️⚙️⚙️...')
-                    console.time('FirstWay');
                     const calcResponse = await P2PSchemeCalc(parseInt(event.text))
-                    console.timeEnd('FirstWay')
                     await sendOrders(calcResponse, event.chat.id, bot)
                     return
                 } else if (telegramState.state[event.chat.id].schemaPath === '/schema/p2p/inputSubSum') {
