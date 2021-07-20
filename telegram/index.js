@@ -104,7 +104,7 @@ async function init(P2PSchemeCalc) {
                         bot
                     )
                     telegramState.clearPath(event.chat.id)
-                    await bot.sendMessage(event.chat.id, `Подписка успешно оформленна, ждите уведомлений`)
+                    await bot.sendMessage(event.chat.id, `Подписка успешно оформленна, ждите уведомлени`)
                     return
                 }
                 await bot.sendMessage(event.chat.id, `не корректная команда`)
