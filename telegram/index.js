@@ -81,7 +81,7 @@ async function init(P2PSchemeCalc) {
                     worker.terminate()
                 })
                 telegramState.state[event.chat.id].workers = []
-                await removeAllWorkers()
+                await removeAllWorkers(event.chat.id)
                 console.log('вы отписались от всех уведомлений')
                 await bot.sendMessage(event.chat.id, 'вы отписались от всех уведомлений')
                 break;
