@@ -1,8 +1,8 @@
 const TelegramBot = require('node-telegram-bot-api');
 const { Worker } = require('worker_threads')
 const {schemeButtons, buttons, commands, token} = require('./consts.js')
-const {sendOrders} = require('./utils.js')
-
+const {sendOrders, addNewWorker, initOldWorkers} = require('./utils.js')
+const {removeAllWorkers, getAllWorkers} = require('../firebase/index.js')
 
 const bot = new TelegramBot(token, {polling: true});
 
@@ -24,6 +24,9 @@ class TelegramState {
         }
     }
     setWorker(chatId, worker, amount, procent) {
+        if (!this.state[chatId]) {
+            this.setUser(chatId)
+        }
         this.state[chatId].workers.push({
             worker,
             amount,
@@ -48,8 +51,19 @@ const telegramState = new TelegramState()
 
 
 async function init(P2PSchemeCalc) {
+    const workersFromBase = await getAllWorkers()
+    if (workersFromBase.length !== 0) {
+        workersFromBase.map(async ({amount, procent, chatId}) => {
+            await initOldWorkers(
+                amount,
+                procent,
+                chatId,
+                telegramState,
+                bot
+            )
+        })
+    }
     await bot.setMyCommands(commands)
-
     bot.on('message', async (event) => {
         switch (event.text) {
             case '/start':
@@ -67,6 +81,8 @@ async function init(P2PSchemeCalc) {
                     worker.terminate()
                 })
                 telegramState.state[event.chat.id].workers = []
+                await removeAllWorkers()
+                console.log('вы отписались от всех уведомлений')
                 await bot.sendMessage(event.chat.id, 'вы отписались от всех уведомлений')
                 break;
             default:
@@ -82,15 +98,12 @@ async function init(P2PSchemeCalc) {
                     return
                 } else if (telegramState.state[event.chat.id].schemaPath === '/schema/p2p/inputSubProcent') {
                     telegramState.setParamsForSub('procent', event.chat.id, event.text)
+                    await addNewWorker(
+                        event.chat.id,
+                        telegramState,
+                        bot
+                    )
                     telegramState.clearPath(event.chat.id)
-                    const worker = new Worker('./telegram/workers/p2pWorker.js', {workerData: {
-                        amountIn: telegramState.state[event.chat.id].amountSub,
-                        procent: telegramState.state[event.chat.id].procentSub
-                    }});
-                    worker.on('message',async (message) => {
-                        await sendOrders(message, event.chat.id, bot)
-                    });
-                    telegramState.setWorker(event.chat.id, worker, telegramState.state[event.chat.id].amountSub, telegramState.state[event.chat.id].procentSub)
                     await bot.sendMessage(event.chat.id, `Подписка успешно оформленна, ждите уведомлений`)
                     return
                 }

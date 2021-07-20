@@ -1,4 +1,6 @@
 const {schemeButtons} = require('./consts.js')
+const {setWorker} = require('../firebase/index.js')
+const { Worker } = require('worker_threads')
 
 async function sendOrders(calcResponse, chatId, bot) {
     if (!calcResponse) {
@@ -17,4 +19,37 @@ async function sendOrders(calcResponse, chatId, bot) {
     await bot.sendMessage(chatId, `На входе: ${input}₽\nНа выходе: ${output}₽\nПроцент к банку: ${procent}%`, schemeButtons)
 }
 
-module.exports = {sendOrders}
+async function addNewWorker(chatId, state, bot) {
+    const worker = new Worker('./telegram/workers/p2pWorker.js', {workerData: {
+            amountIn: state.state[chatId].amountSub,
+            procent: state.state[chatId].procentSub
+        }});
+    worker.on('message',async (message) => {
+        await sendOrders(message, chatId, bot)
+    });
+    state.setWorker(
+        chatId,
+        worker,
+        state.state[chatId].amountSub,
+        state.state[chatId].procentSub
+    )
+    await setWorker(state.state[chatId].amountSub, state.state[chatId].procentSub, chatId)
+}
+
+async function initOldWorkers(amount, procent, chatId, state, bot) {
+    const worker = new Worker('./telegram/workers/p2pWorker.js', {workerData: {
+            amountIn: amount,
+            procent
+        }});
+    worker.on('message',async (message) => {
+        await sendOrders(message, chatId, bot)
+    });
+    state.setWorker(
+        chatId,
+        worker,
+        amount,
+        procent
+    )
+}
+
+module.exports = {sendOrders, addNewWorker, initOldWorkers}

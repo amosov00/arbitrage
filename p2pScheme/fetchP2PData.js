@@ -305,7 +305,6 @@ async function lowCalc(amountIn, limitCombination = 4) {
             }
         }
     }
-    console.log(completeAdvs.length)
     const completeRates = await sortWorkerCreate(completeAdvs)
     completeRates.sort((a, b)=> {
         return a.price - b.price
