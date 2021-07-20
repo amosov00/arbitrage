@@ -18,10 +18,10 @@
     "firebase": "^8.7.1",
     "lodash": "^4.17.21",
     "node-telegram-bot-api": "^0.53.0",
-    "paralleljs": "^1.1.0"
+    "paralleljs": "^1.1.0",
+    "firebase-admin": "^9.11.0"
   },
   "devDependencies": {
-    "firebase-admin": "^9.11.0",
     "jsonwebtoken": "^8.5.1",
     "nodemon": "^2.0.8",
     "puppeteer": "^10.1.0"
