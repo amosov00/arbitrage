@@ -3,7 +3,6 @@ const P2PSchemeCalc = require('../../p2pScheme/index.js')
 
 
 async function repeat() {
-    try {
         console.log('-'.repeat(50))
         console.log(new Date().toLocaleString('ru', {
             timeZone: 'Europe/Moscow'
@@ -21,8 +20,13 @@ async function repeat() {
                 parentPort.postMessage(calcResponse)
             }
         }
-    } finally {
+}
+
+(async ()=>{
+    while (true) {
+        let ram = process.memoryUsage();
+        let ramRss = Math.round(ram.rss / 1024 / 1024 * 100) / 100;
+        console.log("RAM: " + ramRss + " MB");
         await repeat()
     }
-}
-repeat()
+})()

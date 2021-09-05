@@ -1,5 +1,4 @@
 const TelegramBot = require('node-telegram-bot-api');
-const { Worker } = require('worker_threads')
 const {schemeButtons, buttons, commands, token} = require('./consts.js')
 const {sendOrders, addNewWorker, initOldWorkers} = require('./utils.js')
 const {removeAllWorkers, getAllWorkers} = require('../firebase/index.js')

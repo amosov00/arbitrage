@@ -1,7 +1,20 @@
 const https = require("https");
+import axios from "axios";
 const {sortWorkerCreate, calcMiddlePriceInCombination} = require("./utils.js")
 
 function fetchP2PData(page) {
+
+    // return axios.post('p2p.binance.com/bapi/c2c/v2/friendly/c2c/adv/search', {
+    //     baseObj
+    // }, {
+    //         headers: {
+    //             "Content-Type": "application/json",
+    //             "Content-Length": stringData.length,
+    //         },
+    //         port: 443,
+    //     }
+    // )
+
     return new Promise((resolve, reject) => {
         const baseObj = {
             page,
@@ -36,6 +49,7 @@ function fetchP2PData(page) {
                     const jsonOuput = JSON.parse(output)
                     resolve(jsonOuput)
                 } catch (e) {
+                    console.log('error in output', output)
                     reject(e);
                 }
             });
