@@ -22,10 +22,6 @@
     <list default="true" id="76b35e6b-20d8-4781-ba5e-7985a8d40db3" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/p2pScheme/fetchP2PData.js" beforeDir="false" afterPath="$PROJECT_DIR$/p2pScheme/fetchP2PData.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/telegram/consts.js" beforeDir="false" afterPath="$PROJECT_DIR$/telegram/consts.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/telegram/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/telegram/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/telegram/workers/p2pWorker.js" beforeDir="false" afterPath="$PROJECT_DIR$/telegram/workers/p2pWorker.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -99,6 +95,7 @@
       <workItem from="1630780192794" duration="3641000" />
       <workItem from="1630792425206" duration="89000" />
       <workItem from="1630822403974" duration="996000" />
+      <workItem from="1630913111114" duration="95000" />
     </task>
     <servers />
   </component>
