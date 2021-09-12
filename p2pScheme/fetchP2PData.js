@@ -1,4 +1,3 @@
-const https = require("https");
 const axios = require('axios')
 const {sortWorkerCreate, calcMiddlePriceInCombination} = require("./utils.js")
 
@@ -17,13 +16,13 @@ function fetchP2PData(page) {
 async function fetchAllData() {
     let allOffers = []
     for (let i = 1; i <= 3; i++) {
-        try {
-            const {data: {data}} = await fetchP2PData(i)
-            allOffers = [...allOffers, ...data]
-        } catch (e) {
-            const {data: {data}} = await fetchP2PData(i)
-            allOffers = [...allOffers, ...data]
-        }
+        const {data: {data}} = await fetchP2PData(i)
+        allOffers = [...allOffers, ...data]
+        await new Promise(r => {
+            setTimeout(()=>{
+                r()
+            }, 500)
+        })
     }
     return allOffers
 }
