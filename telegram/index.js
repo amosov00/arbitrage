@@ -81,7 +81,6 @@ async function init(P2PSchemeCalc) {
                 })
                 telegramState.state[event.chat.id].workers = []
                 await removeAllWorkers(event.chat.id)
-                console.log('вы отписались от всех уведомлений')
                 await bot.sendMessage(event.chat.id, 'вы отписались от всех уведомлений')
                 break;
             default:
@@ -105,6 +104,10 @@ async function init(P2PSchemeCalc) {
                     telegramState.clearPath(event.chat.id)
                     await bot.sendMessage(event.chat.id, `Подписка успешно оформленна, ждите уведомлений`)
                     return
+                } else if (telegramState.state[event.chat.id].schemaPath === '/schema/pancake') {
+                    await bot.sendMessage(event.chat.id, 'Подождите, идёт обработка запроса⚙️⚙️⚙️...')
+                    await bot.sendMessage(event.chat.id, 'иди нахуй')
+                    return
                 }
                 await bot.sendMessage(event.chat.id, `не корректная команда`)
         }
@@ -114,6 +117,11 @@ async function init(P2PSchemeCalc) {
         switch (event.data) {
             case '/schema/p2p':
                 telegramState.setUserOnSchema(event.message.chat.id, '/schema/p2p')
+                await bot.sendMessage(event.message.chat.id, `введите сумму\nчто бы посмотреть текущую доходность, либо подпишитесь на схему`, schemeButtons)
+                await bot.answerCallbackQuery(event.id)
+                break;
+            case '/schema/pancake':
+                telegramState.setUserOnSchema(event.message.chat.id, '/schema/pancake')
                 await bot.sendMessage(event.message.chat.id, `введите сумму\nчто бы посмотреть текущую доходность, либо подпишитесь на схему`, schemeButtons)
                 await bot.answerCallbackQuery(event.id)
                 break;
@@ -128,7 +136,12 @@ async function init(P2PSchemeCalc) {
                     await bot.sendMessage(event.message.chat.id, `Введите сумму на которую хотите подписаться`)
                     await bot.answerCallbackQuery(event.id)
                 }
-                break;
+                if (telegramState.state[event.message.chat.id].schemaPath === '/schema/pancake') {
+                    //тут должна начинаться логика подписка
+                    await bot.sendMessage(event.message.chat.id, `на схему пока что нельзя подписаться`)
+                    await bot.answerCallbackQuery(event.id)
+                }
+                break
         }
     })
 }

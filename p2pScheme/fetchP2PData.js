@@ -21,7 +21,8 @@ async function fetchAllData() {
             const {data: {data}} = await fetchP2PData(i)
             allOffers = [...allOffers, ...data]
         } catch (e) {
-            throw new Error(e)
+            const {data: {data}} = await fetchP2PData(i)
+            allOffers = [...allOffers, ...data]
         }
     }
     return allOffers

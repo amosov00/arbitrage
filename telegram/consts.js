@@ -2,7 +2,7 @@ const buttons = {
     reply_markup: JSON.stringify({
         inline_keyboard: [
             [{text: 'схема с p2p', callback_data: '/schema/p2p'}],
-            [{text: 'схема с юнисвапом', callback_data: '/schema/uniswap'}]
+            [{text: 'схема с панкейком', callback_data: '/schema/pancake'}]
         ]
     })
 }
@@ -23,6 +23,6 @@ const commands = [
 
 //1774568009:AAGnqXodSjjyayxDWNG3zYSfofeAPAwhMwY production
 //1936627336:AAEjTSZIO9mwk_myJDAoyUDEFZN1ZLMG6-0 test
-const token = '1774568009:AAGnqXodSjjyayxDWNG3zYSfofeAPAwhMwY';
+const token = '1936627336:AAEjTSZIO9mwk_myJDAoyUDEFZN1ZLMG6-0';
 
 module.exports = {schemeButtons, buttons, commands, token}
