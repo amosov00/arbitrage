@@ -1,7 +1,8 @@
 const TelegramBot = require('node-telegram-bot-api');
 const {schemeButtons, buttons, commands, token} = require('./consts.js')
-const {sendOrders, addNewWorker, initOldWorkers} = require('./utils.js')
+const {sendOrders, addNewWorker, initOldWorkers, cakeOutputPerfect} = require('./utils.js')
 const {removeAllWorkers, getAllWorkers} = require('../firebase/index.js')
+const {cakeCalc} = require('../cakeSheme/index.js')
 
 const bot = new TelegramBot(token, {polling: true});
 
@@ -106,7 +107,8 @@ async function init(P2PSchemeCalc) {
                     return
                 } else if (telegramState.state[event.chat.id].schemaPath === '/schema/pancake') {
                     await bot.sendMessage(event.chat.id, 'Подождите, идёт обработка запроса⚙️⚙️⚙️...')
-                    await bot.sendMessage(event.chat.id, 'иди нахуй')
+                    const output = await cakeCalc(event.text)
+                    await cakeOutputPerfect(output)
                     return
                 }
                 await bot.sendMessage(event.chat.id, `не корректная команда`)

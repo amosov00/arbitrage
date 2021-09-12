@@ -23,6 +23,6 @@ const commands = [
 
 //1774568009:AAGnqXodSjjyayxDWNG3zYSfofeAPAwhMwY production
 //1936627336:AAEjTSZIO9mwk_myJDAoyUDEFZN1ZLMG6-0 test
-const token = '1936627336:AAEjTSZIO9mwk_myJDAoyUDEFZN1ZLMG6-0';
+const token = '1774568009:AAGnqXodSjjyayxDWNG3zYSfofeAPAwhMwY';
 
 module.exports = {schemeButtons, buttons, commands, token}

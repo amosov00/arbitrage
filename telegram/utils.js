@@ -52,4 +52,10 @@ async function initOldWorkers(amount, procent, chatId, state, bot) {
     )
 }
 
-module.exports = {sendOrders, addNewWorker, initOldWorkers}
+
+async function cakeOutputPerfect(input, output, chatId, bot) {
+    const procent = ((output * 100) / input) - 100
+    await bot.sendMessage(chatId, `На входе: ${input}₽\nНа выходе: ${output}₽\nПроцент к банку: ${procent}%`, schemeButtons)
+}
+
+module.exports = {sendOrders, addNewWorker, initOldWorkers, cakeOutputPerfect}

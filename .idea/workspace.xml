@@ -21,7 +21,17 @@
   <component name="ChangeListManager">
     <list default="true" id="76b35e6b-20d8-4781-ba5e-7985a8d40db3" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/p2pScheme/fetchP2PData.js" beforeDir="false" afterPath="$PROJECT_DIR$/p2pScheme/fetchP2PData.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cakeSheme/garantex.js" beforeDir="false" afterPath="$PROJECT_DIR$/cakeSheme/garantex.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cakeSheme/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/cakeSheme/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cakeSheme/p2p.js" beforeDir="false" afterPath="$PROJECT_DIR$/cakeSheme/p2p.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cakeSheme/pancake.js" beforeDir="false" afterPath="$PROJECT_DIR$/cakeSheme/pancake.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/main.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/telegram/consts.js" beforeDir="false" afterPath="$PROJECT_DIR$/telegram/consts.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/telegram/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/telegram/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/telegram/utils.js" beforeDir="false" afterPath="$PROJECT_DIR$/telegram/utils.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/telegram/workers/p2pWorker.js" beforeDir="false" afterPath="$PROJECT_DIR$/telegram/workers/p2pWorker.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -97,7 +107,7 @@
       <workItem from="1630822403974" duration="996000" />
       <workItem from="1630913111114" duration="95000" />
       <workItem from="1631360994698" duration="5398000" />
-      <workItem from="1631449828474" duration="686000" />
+      <workItem from="1631449828474" duration="7685000" />
     </task>
     <servers />
   </component>
