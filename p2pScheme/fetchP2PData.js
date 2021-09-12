@@ -16,13 +16,9 @@ function fetchP2PData(page) {
 async function fetchAllData() {
     let allOffers = []
     for (let i = 1; i <= 3; i++) {
+        await new Promise(r => {setTimeout(()=>{r()}, 1000)})
         const {data: {data}} = await fetchP2PData(i)
         allOffers = [...allOffers, ...data]
-        await new Promise(r => {
-            setTimeout(()=>{
-                r()
-            }, 500)
-        })
     }
     return allOffers
 }
