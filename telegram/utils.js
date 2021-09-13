@@ -16,28 +16,58 @@ async function sendOrders(calcResponse, chatId, bot) {
             \nНикнейм продавца: ${order.nickName}
         `)
     }
-    await bot.sendMessage(chatId, `На входе: ${input}₽\nНа выходе: ${output}₽\nПроцент к банку: ${procent}%`, schemeButtons)
+    await bot.sendMessage(chatId, `Cхема с питупи и гарой напрямую (USDT)\nНа входе: ${input}₽\nНа выходе: ${output}₽\nПроцент к банку: ${procent}%`, schemeButtons)
 }
+
+
+
 
 async function addNewWorker(chatId, state, bot) {
     const worker = new Worker('./telegram/workers/p2pWorker.js', {workerData: {
             amountIn: state.state[chatId].amountSub,
             procent: state.state[chatId].procentSub
-        }});
+    }});
+
     worker.on('message',async (message) => {
         await sendOrders(message, chatId, bot)
     });
+
     state.setWorker(
         chatId,
         worker,
         state.state[chatId].amountSub,
         state.state[chatId].procentSub
     )
-    await setWorker(state.state[chatId].amountSub, state.state[chatId].procentSub, chatId)
+
+    await setWorker(state.state[chatId].amountSub, state.state[chatId].procentSub, chatId, 'p2p_buy-workers')
 }
 
-async function initOldWorkers(amount, procent, chatId, state, bot) {
-    const worker = new Worker('./telegram/workers/p2pWorker.js', {workerData: {
+
+async function addNewCakeWorker(chatId, state, bot) {
+    const worker = new Worker('./telegram/workers/cakeWorker.js', {workerData: {
+            amountIn: state.state[chatId].amountSub,
+            procent: state.state[chatId].procentSub
+    }})
+
+    worker.on('message',async (message) => {
+        await cakeOutputPerfect(message.input, message.output, chatId, bot)
+    })
+
+    state.setWorker(
+        chatId,
+        worker,
+        state.state[chatId].amountSub,
+        state.state[chatId].procentSub
+    )
+
+    await setWorker(state.state[chatId].amountSub, state.state[chatId].procentSub, chatId, 'cake-workers')
+}
+
+
+
+
+async function initOldWorkers(amount, procent, chatId, state, bot, workerName) {
+    const worker = new Worker(`./telegram/workers/${workerName}.js`, {workerData: {
             amountIn: amount,
             procent
         }});
@@ -55,7 +85,7 @@ async function initOldWorkers(amount, procent, chatId, state, bot) {
 
 async function cakeOutputPerfect(input, output, chatId, bot) {
     const procent = ((output * 100) / input) - 100
-    await bot.sendMessage(chatId, `На входе: ${input}₽\nНа выходе: ${output}₽\nПроцент к банку: ${procent}%`, schemeButtons)
+    await bot.sendMessage(chatId, `Cхема с питупи гарой и панкейком(BNB)\nНа входе: ${input}₽\nНа выходе: ${output}₽\nПроцент к банку: ${procent}%`, schemeButtons)
 }
 
-module.exports = {sendOrders, addNewWorker, initOldWorkers, cakeOutputPerfect}
+module.exports = {sendOrders, addNewWorker, initOldWorkers, cakeOutputPerfect, addNewCakeWorker}

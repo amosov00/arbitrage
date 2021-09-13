@@ -1,6 +1,6 @@
 const TelegramBot = require('node-telegram-bot-api');
 const {schemeButtons, buttons, commands, token} = require('./consts.js')
-const {sendOrders, addNewWorker, initOldWorkers, cakeOutputPerfect} = require('./utils.js')
+const {sendOrders, addNewWorker, initOldWorkers, cakeOutputPerfect, addNewCakeWorker} = require('./utils.js')
 const {removeAllWorkers, getAllWorkers} = require('../firebase/index.js')
 const {cakeCalc} = require('../cakeSheme/index.js')
 
@@ -52,14 +52,27 @@ const telegramState = new TelegramState()
 
 async function init(P2PSchemeCalc) {
     const workersFromBase = await getAllWorkers()
-    if (workersFromBase.length !== 0) {
-        workersFromBase.map(async ({amount, procent, chatId}) => {
+    if (workersFromBase.p2pWorkers.length !== 0) {
+        workersFromBase.p2pWorkers.map(async ({amount, procent, chatId}) => {
             await initOldWorkers(
                 amount,
                 procent,
                 chatId,
                 telegramState,
-                bot
+                bot,
+                'p2pWorker'
+            )
+        })
+    }
+    if (workersFromBase.cakeWorkers.length !== 0) {
+        workersFromBase.cakeWorkers.map(async ({amount, procent, chatId}) => {
+            await initOldWorkers(
+                amount,
+                procent,
+                chatId,
+                telegramState,
+                bot,
+                'cakeWorker'
             )
         })
     }
@@ -108,7 +121,22 @@ async function init(P2PSchemeCalc) {
                 } else if (telegramState.state[event.chat.id].schemaPath === '/schema/pancake') {
                     await bot.sendMessage(event.chat.id, 'Подождите, идёт обработка запроса⚙️⚙️⚙️...')
                     const output = await cakeCalc(event.text)
-                    await cakeOutputPerfect(output)
+                    await cakeOutputPerfect(event.text, output, event.chat.id, bot)
+                    return
+                } else if (telegramState.state[event.chat.id].schemaPath === '/schema/pancake/inputSubSum') {
+                    telegramState.setParamsForSub('amount', event.chat.id, event.text)
+                    telegramState.setUserOnSchema(event.chat.id, '/schema/pancake/inputSubProcent')
+                    await bot.sendMessage(event.chat.id, `Введите процент по которому хотите получать уведомления`)
+                    return
+                } else if (telegramState.state[event.chat.id].schemaPath === '/schema/pancake/inputSubProcent') {
+                    telegramState.setParamsForSub('procent', event.chat.id, event.text)
+                    await addNewCakeWorker(
+                        event.chat.id,
+                        telegramState,
+                        bot
+                    )
+                    telegramState.clearPath(event.chat.id)
+                    await bot.sendMessage(event.chat.id, `Подписка успешно оформленна, ждите уведомлений`)
                     return
                 }
                 await bot.sendMessage(event.chat.id, `не корректная команда`)
@@ -135,14 +163,12 @@ async function init(P2PSchemeCalc) {
             case '/subscription':
                 if (telegramState.state[event.message.chat.id].schemaPath === '/schema/p2p') {
                     telegramState.setUserOnSchema(event.message.chat.id, '/schema/p2p/inputSubSum')
-                    await bot.sendMessage(event.message.chat.id, `Введите сумму на которую хотите подписаться`)
-                    await bot.answerCallbackQuery(event.id)
                 }
                 if (telegramState.state[event.message.chat.id].schemaPath === '/schema/pancake') {
-                    //тут должна начинаться логика подписка
-                    await bot.sendMessage(event.message.chat.id, `на схему пока что нельзя подписаться`)
-                    await bot.answerCallbackQuery(event.id)
+                    telegramState.setUserOnSchema(event.message.chat.id, '/schema/pancake/inputSubSum')
                 }
+                await bot.sendMessage(event.message.chat.id, `Введите сумму на которую хотите подписаться`)
+                await bot.answerCallbackQuery(event.id)
                 break
         }
     })
