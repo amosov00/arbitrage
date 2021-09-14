@@ -26,7 +26,7 @@ async function repeat() {
             await repeat()
         } catch (e) {
             console.log('произошла ошибка!!!')
-            throw new Error(e)
+            await repeat()
         }
     }
 })()
