@@ -2,8 +2,8 @@ const { workerData, parentPort } = require('worker_threads')
 const {cakeCalc} = require('../../cakeSheme/index.js')
 
 async function repeat() {
-    await new Promise((resolve)=>{setTimeout(()=>{resolve()}, 2000)})
     console.time('скорость обновления')
+    await new Promise((resolve)=>{setTimeout(()=>{resolve()}, 2000)})
     const calcResponse = await cakeCalc(parseInt(workerData.amountIn))
     console.timeEnd('скорость обновления')
     const procent = ((calcResponse * 100) / workerData.amountIn) - 100
