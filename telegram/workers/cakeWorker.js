@@ -2,8 +2,14 @@ const { workerData, parentPort } = require('worker_threads')
 const {cakeCalc} = require('../../cakeSheme/index.js')
 
 async function repeat() {
+    let calcResponse
     console.time('скорость обновления')
-    const calcResponse = await cakeCalc(parseInt(workerData.amountIn))
+    try {
+        calcResponse = await cakeCalc(parseInt(workerData.amountIn))
+    } catch (e) {
+        await repeat()
+        return
+    }
     console.timeEnd('скорость обновления')
     const procent = ((calcResponse * 100) / workerData.amountIn) - 100
     console.log('-'.repeat(50))
@@ -22,11 +28,6 @@ async function repeat() {
 
 (async ()=>{
     while (true) {
-        try {
-            await repeat()
-        } catch (e) {
-            console.log('произошла ошибка!!!')
-            await repeat()
-        }
+        await repeat()
     }
 })()
