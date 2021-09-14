@@ -3,7 +3,6 @@ const P2PSchemeCalc = require('../../p2pScheme/index.js')
 
 
 async function repeat() {
-    try {
         console.log('-'.repeat(50))
         console.log('Cхема с питупи и гарой напрямую (USDT)')
         console.log(new Date().toLocaleString('ru', {
@@ -18,14 +17,15 @@ async function repeat() {
         if (+calcResponse.procent >= +workerData.procent) {
             parentPort.postMessage(calcResponse)
         }
-    } catch (e) {
-        console.log('произошла ошибка!!!')
-        throw new Error(e)
-    }
 }
 
 (async ()=>{
     while (true) {
-        await repeat()
+        try {
+            await repeat()
+        } catch (e) {
+            console.log('произошла ошибка!!!')
+            throw new Error(e)
+        }
     }
 })()

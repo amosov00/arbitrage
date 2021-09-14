@@ -23,6 +23,11 @@ async function repeat() {
 
 (async ()=>{
     while (true) {
-        await repeat()
+        try {
+            await repeat()
+        } catch (e) {
+            console.log('произошла ошибка!!!')
+            throw new Error(e)
+        }
     }
 })()
