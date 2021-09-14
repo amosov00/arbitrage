@@ -1,1 +1,1 @@
-worker: node main --trace-warnings
+worker: node main

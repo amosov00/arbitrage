@@ -2,7 +2,7 @@ const { workerData, parentPort } = require('worker_threads')
 const {cakeCalc} = require('../../cakeSheme/index.js')
 
 async function repeat() {
-    await new Promise((resolve)=>{setTimeout(()=>{resolve()}, 1200)})
+    await new Promise((resolve)=>{setTimeout(()=>{resolve()}, 2000)})
     console.time('скорость обновления')
     const calcResponse = await cakeCalc(parseInt(workerData.amountIn))
     console.timeEnd('скорость обновления')
