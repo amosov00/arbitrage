@@ -6,6 +6,7 @@ const {getBNBFee} = require('./allFee.js')
 async function cakeCalc(amountRUB) {
     const txFee = await getBNBFee()
     const bestSellOfferRate = await fetchGarantex()
+    await new Promise((resolve)=>{setTimeout(()=>{resolve()}, 5000)})
     const p2pData = await fetchP2PData()
     const BNBPrice = filterP2P(p2pData.data.data)
     const amountBNB = amountRUB / BNBPrice
