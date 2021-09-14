@@ -1,14 +1,14 @@
 const axios = require('axios')
 function fetchP2PData() {
-    return axios.post('https://p2p.binance.com/bapi/c2c/v2/friendly/c2c/adv/search', {
-        page: 1,
-        rows: 20,
-        payTypes: [],
-        publisherType: null,
-        tradeType: 'SELL',
-        fiat: 'RUB',
-        asset: 'BNB'
-    })
+        return axios.post('https://p2p.binance.com/bapi/c2c/v2/friendly/c2c/adv/search', {
+            page: 1,
+            rows: 20,
+            payTypes: [],
+            publisherType: null,
+            tradeType: 'SELL',
+            fiat: 'RUB',
+            asset: 'BNB'
+        })
 }
 
 function filterP2P(data) {

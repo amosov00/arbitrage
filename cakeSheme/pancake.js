@@ -9,9 +9,9 @@ const pancakeswapPair = new PancakeswapPair({
 
 
 async function pancakeTrade(amount) {
-    const pancakeswapPairFactory = await pancakeswapPair.createFactory();
-    const trade = await pancakeswapPairFactory.trade(`${amount}`);
-    return trade.expectedConvertQuote
+        const pancakeswapPairFactory = await pancakeswapPair.createFactory();
+        const trade = await pancakeswapPairFactory.trade(`${amount}`);
+        return trade.expectedConvertQuote
 }
 
 
