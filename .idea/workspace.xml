@@ -22,6 +22,7 @@
     <list default="true" id="76b35e6b-20d8-4781-ba5e-7985a8d40db3" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/telegram/workers/cakeWorker.js" beforeDir="false" afterPath="$PROJECT_DIR$/telegram/workers/cakeWorker.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/telegram/workers/p2pWorker.js" beforeDir="false" afterPath="$PROJECT_DIR$/telegram/workers/p2pWorker.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -104,7 +105,7 @@
       <workItem from="1631796526062" duration="305000" />
       <workItem from="1632153466433" duration="816000" />
       <workItem from="1632426012839" duration="5411000" />
-      <workItem from="1632432933550" duration="1207000" />
+      <workItem from="1632432933550" duration="1755000" />
     </task>
     <servers />
   </component>
