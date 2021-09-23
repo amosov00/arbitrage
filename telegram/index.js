@@ -6,6 +6,8 @@ const {cakeCalc} = require('../cakeSheme/index.js')
 
 const bot = new TelegramBot(token, {polling: true});
 
+console.log('init')
+
 
 class TelegramState {
     constructor() {
@@ -174,5 +176,5 @@ async function init(P2PSchemeCalc) {
     })
 }
 
-module.exports = {init, bot}
+module.exports = {init}
 
