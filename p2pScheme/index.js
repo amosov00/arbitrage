@@ -3,7 +3,7 @@ const {fetchGarantex} = require('./garantex.js')
 const garantexTradeFee = 0.0015
 const binanceUSDTwidthrawFee = 0.8
 async function P2PSchemeCalc(amountRub) {
-    const {price: rateUSDT_binance, prices: binanceOrders} = await lowCalc(amountRub, 4)
+    const {price: rateUSDT_binance, prices: binanceOrders} = await lowCalc(amountRub, 4, 'USDT')
     if (!rateUSDT_binance) {
         return null
     }

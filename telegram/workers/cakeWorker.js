@@ -1,5 +1,6 @@
 const { workerData, parentPort } = require('worker_threads')
 const {cakeCalc} = require('../../cakeSheme/index.js')
+const {bot} =  require('../index.js')
 
 async function repeat() {
     let calcResponse
@@ -7,6 +8,7 @@ async function repeat() {
     try {
         calcResponse = await cakeCalc(parseInt(workerData.amountIn))
     } catch (e) {
+        //await bot.sendMessage(234, '234')
         await repeat()
         return
     }

@@ -1,18 +1,20 @@
-const {fetchP2PData, filterP2P} = require('./p2p.js')
 const {pancakeTrade} = require('./pancake.js')
 const {fetchGarantex} = require('./garantex.js')
 const {getBNBFee} = require('./allFee.js')
+const {lowCalc} = require('../p2pScheme/fetchP2PData.js')
 
 async function cakeCalc(amountRUB) {
+    await new Promise((resolve)=>{setTimeout(()=>{resolve()}, 2000)})
     const txFee = await getBNBFee()
     const bestSellOfferRate = await fetchGarantex()
-    await new Promise((resolve)=>{setTimeout(()=>{resolve()}, 5000)})
-    const p2pData = await fetchP2PData()
-    const BNBPrice = filterP2P(p2pData.data.data)
-    const amountBNB = amountRUB / BNBPrice
+    const {price: rateBNB_binance, prices: binanceOrders} = await lowCalc(amountRUB, 4, 'BNB')
+    const amountBNB = amountRUB / rateBNB_binance
     const realAmountBNB = amountBNB - (txFee * 2)
     const amountUSDT = await pancakeTrade(realAmountBNB)
-    return  amountUSDT * bestSellOfferRate
+    return {
+        value: amountUSDT * bestSellOfferRate,
+        orders: binanceOrders
+    }
 }
 
 module.exports = {cakeCalc}

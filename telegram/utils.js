@@ -50,7 +50,7 @@ async function addNewCakeWorker(chatId, state, bot) {
     }})
 
     worker.on('message',async (message) => {
-        await cakeOutputPerfect(message.input, message.output, chatId, bot)
+        await cakeOutputPerfect(message.input, message.output.value, chatId, bot, message.output.orders)
     })
 
     state.setWorker(
@@ -83,8 +83,16 @@ async function initOldWorkers(amount, procent, chatId, state, bot, workerName) {
 }
 
 
-async function cakeOutputPerfect(input, output, chatId, bot) {
+async function cakeOutputPerfect(input, output, chatId, bot, orders) {
     const procent = ((output * 100) / input) - 100
+    for (const order of orders) {
+        await bot.sendMessage(chatId, `№${orders.indexOf(order) + 1}
+            \nДоступно всего: ${order.available} BNB
+            \nНадо купить: ${order.value.toFixed(3).replace(/.$/,'')} BNB
+            \nКурс ордера: ${order.rate}
+            \nНикнейм продавца: ${order.nickName}
+        `)
+    }
     await bot.sendMessage(chatId, `Cхема с питупи гарой и панкейком(BNB)\nНа входе: ${input}₽\nНа выходе: ${output}₽\nПроцент к банку: ${procent}%`, schemeButtons)
 }
 

@@ -121,7 +121,7 @@ async function init(P2PSchemeCalc) {
                 } else if (telegramState.state[event.chat.id].schemaPath === '/schema/pancake') {
                     await bot.sendMessage(event.chat.id, 'Подождите, идёт обработка запроса⚙️⚙️⚙️...')
                     const output = await cakeCalc(event.text)
-                    await cakeOutputPerfect(event.text, output, event.chat.id, bot)
+                    await cakeOutputPerfect(event.text, output.value, event.chat.id, bot, output.orders)
                     return
                 } else if (telegramState.state[event.chat.id].schemaPath === '/schema/pancake/inputSubSum') {
                     telegramState.setParamsForSub('amount', event.chat.id, event.text)
@@ -174,5 +174,5 @@ async function init(P2PSchemeCalc) {
     })
 }
 
-module.exports = {init}
+module.exports = {init, bot}
 

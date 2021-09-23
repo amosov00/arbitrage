@@ -1,7 +1,7 @@
 const axios = require('axios')
 const {sortWorkerCreate, calcMiddlePriceInCombination} = require("./utils.js")
 
-function fetchP2PData(page) {
+function fetchP2PData(page, asset) {
     return axios.post('https://p2p.binance.com/bapi/c2c/v2/friendly/c2c/adv/search', {
         page,
         rows: 20,
@@ -9,23 +9,23 @@ function fetchP2PData(page) {
         publisherType: null,
         tradeType: 'BUY',
         fiat: 'RUB',
-        asset: 'USDT'
+        asset
     })
 }
 
-async function fetchAllData() {
+async function fetchAllData(asset) {
     let allOffers = []
     for (let i = 1; i <= 3; i++) {
         await new Promise(r => {setTimeout(()=>{r()}, 1000)})
-        const {data: {data}} = await fetchP2PData(i)
+        const {data: {data}} = await fetchP2PData(i, asset)
         allOffers = [...allOffers, ...data]
     }
     return allOffers
 }
 
 
-async function lowCalc(amountIn, limitCombination = 4) {
-    const rawAdvs = await fetchAllData()
+async function lowCalc(amountIn, limitCombination = 4, asset) {
+    const rawAdvs = await fetchAllData(asset)
     const completeAdvs = []
     const advs = rawAdvs
         .filter(e => {
