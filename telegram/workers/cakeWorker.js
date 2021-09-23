@@ -14,16 +14,16 @@ async function repeat() {
         return
     }
     console.timeEnd('скорость обновления')
-    const procent = ((calcResponse * 100) / workerData.amountIn) - 100
+    const procent = ((calcResponse.value * 100) / workerData.amountIn) - 100
     console.log('Cхема с питупи гарой и панкейком(BNB)')
-    console.log('calcResponse', calcResponse)
+    console.log('calcResponse', calcResponse.value)
     console.log('real procent', procent)
     console.log('my procent', +workerData.procent)
     console.log('-'.repeat(50))
     if (procent >= +workerData.procent) {
         parentPort.postMessage({
             input: workerData.amountIn,
-            output: calcResponse
+            output: calcResponse.value
         })
     }
 }
