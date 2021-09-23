@@ -21,7 +21,7 @@ async function repeat() {
     if (procent >= +workerData.procent) {
         parentPort.postMessage({
             input: workerData.amountIn,
-            output: calcResponse.value
+            output: calcResponse
         })
     }
 }
