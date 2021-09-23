@@ -3,18 +3,18 @@ const {cakeCalc} = require('../../cakeSheme/index.js')
 
 async function repeat() {
     let calcResponse
-    console.time('скорость обновления (BNB)')
     try {
         calcResponse = await cakeCalc(parseInt(workerData.amountIn))
     } catch (e) {
+        //await bot.sendMessage(234, '234')
         await repeat()
         return
     }
-    console.timeEnd('скорость обновления (BNB)')
     const procent = ((calcResponse.value * 100) / workerData.amountIn) - 100
+    console.log('Cхема с питупи гарой и панкейком(BNB)')
     console.log('calcResponse', calcResponse.value)
-    console.log('получаемый процент (BNB)', procent)
-    console.log('желаемый процент (BNB)', +workerData.procent)
+    console.log('real procent', procent)
+    console.log('my procent', +workerData.procent)
     if (procent >= +workerData.procent) {
         parentPort.postMessage({
             input: workerData.amountIn,
