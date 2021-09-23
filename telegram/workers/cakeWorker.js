@@ -4,6 +4,7 @@ const {bot} =  require('../index.js')
 
 async function repeat() {
     let calcResponse
+    console.log('-'.repeat(50))
     console.time('скорость обновления')
     try {
         calcResponse = await cakeCalc(parseInt(workerData.amountIn))
@@ -14,7 +15,6 @@ async function repeat() {
     }
     console.timeEnd('скорость обновления')
     const procent = ((calcResponse * 100) / workerData.amountIn) - 100
-    console.log('-'.repeat(50))
     console.log('Cхема с питупи гарой и панкейком(BNB)')
     console.log('calcResponse', calcResponse)
     console.log('real procent', procent)
