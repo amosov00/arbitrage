@@ -2,14 +2,7 @@ const { workerData, parentPort } = require('worker_threads')
 const {cakeCalc} = require('../../cakeSheme/index.js')
 
 async function repeat() {
-    let calcResponse
-    try {
-        calcResponse = await cakeCalc(parseInt(workerData.amountIn))
-    } catch (e) {
-        //await bot.sendMessage(234, '234')
-        await repeat()
-        return
-    }
+    const calcResponse = await cakeCalc(parseInt(workerData.amountIn))
     const procent = ((calcResponse.value * 100) / workerData.amountIn) - 100
     console.log('Cхема с питупи гарой и панкейком(BNB)')
     console.log('calcResponse', calcResponse.value)
@@ -25,6 +18,10 @@ async function repeat() {
 
 (async ()=>{
     while (true) {
-        await repeat()
+        try {
+            await repeat()
+        } catch (e) {
+            throw new Error(e)
+        }
     }
 })()
