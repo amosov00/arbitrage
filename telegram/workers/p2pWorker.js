@@ -4,8 +4,7 @@ const P2PSchemeCalc = require('../../p2pScheme/index.js')
 
 async function repeat() {
         const calcResponse = await P2PSchemeCalc(parseInt(workerData.amountIn))
-        console.log('получаемый процент', calcResponse.procent)
-        console.log('желаемый процент', workerData.procent)
+        console.log(`cхема 1. Процент желаемый: ${workerData.procent}. Процент ревльный: ${calcResponse.procent}`)
         if (+calcResponse.procent >= +workerData.procent) {
             parentPort.postMessage(calcResponse)
         }
@@ -16,7 +15,8 @@ async function repeat() {
         try {
             await repeat()
         } catch (e) {
-            throw new Error(e)
+            await repeat()
+            console.log(e)
         }
     }
 })()
