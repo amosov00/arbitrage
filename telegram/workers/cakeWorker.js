@@ -18,7 +18,7 @@ async function repeat() {
         try {
             await repeat()
         } catch (e) {
-            await repeat()
+            //await repeat()
             console.log(e)
         }
     }
