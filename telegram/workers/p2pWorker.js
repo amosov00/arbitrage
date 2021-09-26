@@ -1,22 +1,25 @@
 const { workerData, parentPort } = require('worker_threads')
 const P2PSchemeCalc = require('../../p2pScheme/index.js')
-
+const {writeError} = require('../../errorHendler/index.js')
+let procent = null
 
 async function repeat() {
+    try {
         const calcResponse = await P2PSchemeCalc(parseInt(workerData.amountIn))
-        console.log(`cхема 1. Процент желаемый: ${workerData.procent}. Процент ревльный: ${calcResponse.procent}`)
         if (+calcResponse.procent >= +workerData.procent) {
             parentPort.postMessage(calcResponse)
         }
+        procent = +calcResponse.procent
+    } catch (e) {
+        //await writeError(JSON.stringify(e) + e)
+        console.log(e)
+        await repeat()
+    }
 }
 
 (async ()=>{
     while (true) {
-        try {
-            await repeat()
-        } catch (e) {
-            //await repeat()
-            console.log(e)
-        }
+        //console.log(`loop ${workerData.number}`, procent)
+        await repeat()
     }
 })()

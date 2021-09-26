@@ -1,6 +1,7 @@
 const {schemeButtons} = require('./consts.js')
 const {setWorker} = require('../firebase/index.js')
 const { Worker } = require('worker_threads')
+let workerCounter = 0
 
 async function sendOrders(calcResponse, chatId, bot) {
     if (!calcResponse) {
@@ -23,9 +24,13 @@ async function sendOrders(calcResponse, chatId, bot) {
 
 
 async function addNewWorker(chatId, state, bot) {
+    workerCounter++
+
+
     const worker = new Worker('./telegram/workers/p2pWorker.js', {workerData: {
             amountIn: state.state[chatId].amountSub,
-            procent: state.state[chatId].procentSub
+            procent: state.state[chatId].procentSub,
+            number: workerCounter
     }});
 
     worker.on('message',async (message) => {
@@ -44,9 +49,11 @@ async function addNewWorker(chatId, state, bot) {
 
 
 async function addNewCakeWorker(chatId, state, bot) {
+    workerCounter++
     const worker = new Worker('./telegram/workers/cakeWorker.js', {workerData: {
             amountIn: state.state[chatId].amountSub,
-            procent: state.state[chatId].procentSub
+            procent: state.state[chatId].procentSub,
+            number: workerCounter
     }})
 
     worker.on('message',async (message) => {
@@ -67,9 +74,11 @@ async function addNewCakeWorker(chatId, state, bot) {
 
 
 async function initOldWorkers(amount, procent, chatId, state, bot, workerName) {
+    workerCounter++
     const worker = new Worker(`./telegram/workers/${workerName}.js`, {workerData: {
             amountIn: amount,
-            procent
+            procent,
+            number: workerCounter
         }});
     worker.on('message',async (message) => {
         await sendOrders(message, chatId, bot)

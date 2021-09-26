@@ -1,25 +1,28 @@
 const { workerData, parentPort } = require('worker_threads')
 const {cakeCalc} = require('../../cakeSheme/index.js')
+const {writeError} = require('../../errorHendler/index.js')
+let procent = null
 
 async function repeat() {
-    const calcResponse = await cakeCalc(parseInt(workerData.amountIn))
-    const procent = ((calcResponse.value * 100) / workerData.amountIn) - 100
-    console.log(`cхема 2. Процент желаемый: ${workerData.procent}. Процент ревльный: ${procent}`)
-    if (procent >= +workerData.procent) {
-        parentPort.postMessage({
-            input: workerData.amountIn,
-            output: calcResponse
-        })
+    try {
+        const calcResponse = await cakeCalc(parseInt(workerData.amountIn))
+        procent = ((calcResponse.value * 100) / workerData.amountIn) - 100
+        if (procent >= +workerData.procent) {
+            parentPort.postMessage({
+                input: workerData.amountIn,
+                output: calcResponse
+            })
+        }
+    } catch (e) {
+        //await writeError(JSON.stringify(e) + e)
+        console.log(e)
+        await repeat()
     }
 }
 
 (async ()=>{
     while (true) {
-        try {
-            await repeat()
-        } catch (e) {
-            //await repeat()
-            console.log(e)
-        }
+        console.log(`loop ${workerData.number}`, procent)
+        await repeat()
     }
 })()
