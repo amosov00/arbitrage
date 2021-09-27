@@ -20,16 +20,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="76b35e6b-20d8-4781-ba5e-7985a8d40db3" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/axios-settings.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cakeSheme/allFee.js" beforeDir="false" afterPath="$PROJECT_DIR$/cakeSheme/allFee.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cakeSheme/garantex.js" beforeDir="false" afterPath="$PROJECT_DIR$/cakeSheme/garantex.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cakeSheme/p2p.js" beforeDir="false" afterPath="$PROJECT_DIR$/cakeSheme/p2p.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/errors.txt" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/p2pScheme/fetchP2PData.js" beforeDir="false" afterPath="$PROJECT_DIR$/p2pScheme/fetchP2PData.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/p2pScheme/garantex.js" beforeDir="false" afterPath="$PROJECT_DIR$/p2pScheme/garantex.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/telegram/workers/cakeWorker.js" beforeDir="false" afterPath="$PROJECT_DIR$/telegram/workers/cakeWorker.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/telegram/workers/p2pWorker.js" beforeDir="false" afterPath="$PROJECT_DIR$/telegram/workers/p2pWorker.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
