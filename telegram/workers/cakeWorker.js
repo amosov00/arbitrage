@@ -15,7 +15,7 @@ async function repeat() {
         }
     } catch (e) {
         //await writeError(JSON.stringify(e) + e)
-        console.log(e)
+        console.log(`error from ${workerData.number}`, e)
         await repeat()
     }
 }

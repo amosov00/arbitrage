@@ -1,4 +1,4 @@
-const axios = require('axios')
+const axios = require('../axios-settings.js')
 const {sortWorkerCreate, calcMiddlePriceInCombination} = require("./utils.js")
 
 function fetchP2PData(page, asset) {
@@ -16,7 +16,6 @@ function fetchP2PData(page, asset) {
 async function fetchAllData(asset) {
     let allOffers = []
     for (let i = 1; i <= 3; i++) {
-        await new Promise(r => {setTimeout(()=>{r()}, 1000)})
         const {data: {data}} = await fetchP2PData(i, asset)
         allOffers = [...allOffers, ...data]
     }

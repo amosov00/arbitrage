@@ -11,15 +11,14 @@ async function repeat() {
         }
         procent = +calcResponse.procent
     } catch (e) {
-        //await writeError(JSON.stringify(e) + e)
-        console.log(e)
+        console.log(`error from ${workerData.number}`, e)
         await repeat()
     }
 }
 
 (async ()=>{
     while (true) {
-        //console.log(`loop ${workerData.number}`, procent)
+        console.log(`loop ${workerData.number}`, procent)
         await repeat()
     }
 })()
