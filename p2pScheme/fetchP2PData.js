@@ -1,16 +1,7 @@
-//const axios = require('../axios-settings.js')
+const https = require("https");
 const {sortWorkerCreate, calcMiddlePriceInCombination} = require("./utils.js")
 
 function fetchP2PData(page, asset) {
-    // return axios.post('https://p2p.binance.com/bapi/c2c/v2/friendly/c2c/adv/search', {
-    //     page,
-    //     rows: 20,
-    //     payTypes: [],
-    //     publisherType: null,
-    //     tradeType: 'BUY',
-    //     fiat: 'RUB',
-    //     asset
-    // })
     return new Promise((resolve, reject) => {
         const baseObj = {
             page,
@@ -19,7 +10,7 @@ function fetchP2PData(page, asset) {
             publisherType: null,
             tradeType: 'BUY',
             fiat: 'RUB',
-            asset: 'USDT',
+            asset: asset,
         };
 
         const stringData = JSON.stringify(baseObj);

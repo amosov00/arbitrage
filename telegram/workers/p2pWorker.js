@@ -12,7 +12,6 @@ async function repeat() {
         procent = +calcResponse.procent
     } catch (e) {
         console.log(`error from ${workerData.number}`, e)
-        await repeat()
     }
 }
 
