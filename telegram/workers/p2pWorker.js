@@ -1,6 +1,5 @@
 const { workerData, parentPort } = require('worker_threads')
 const P2PSchemeCalc = require('../../p2pScheme/index.js')
-const {writeError} = require('../../errorHendler/index.js')
 let procent = null
 
 async function repeat() {
@@ -11,7 +10,7 @@ async function repeat() {
         }
         procent = +calcResponse.procent
     } catch (e) {
-        console.log(`error from ${workerData.number}`, e)
+        console.log(`loop ${workerData.number} error`, e)
     }
 }
 

@@ -1,6 +1,5 @@
 const { workerData, parentPort } = require('worker_threads')
 const {cakeCalc} = require('../../cakeSheme/index.js')
-const {writeError} = require('../../errorHendler/index.js')
 let procent = null
 
 async function repeat() {
@@ -14,7 +13,7 @@ async function repeat() {
             })
         }
     } catch (e) {
-        console.log(`error from ${workerData.number}`, e)
+        console.log(`loop ${workerData.number} error`, e)
     }
 }
 

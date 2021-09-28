@@ -15,6 +15,7 @@
   "dependencies": {
     "@tinkoff/invest-openapi-js-sdk": "^1.5.0",
     "axios": "^0.21.1",
+    "devtool": "^2.3.1",
     "firebase": "^8.7.1",
     "firebase-admin": "^9.11.0",
     "lodash": "^4.17.21",
