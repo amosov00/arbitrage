@@ -4,7 +4,7 @@ let procent = null
 
 async function repeat() {
     try {
-        const calcResponse = await P2PSchemeCalc(parseInt(workerData.amountIn))
+        const calcResponse = await P2PSchemeCalc(parseInt(workerData.amountIn), workerData.number)
         if (+calcResponse.procent >= +workerData.procent) {
             parentPort.postMessage(calcResponse)
         }

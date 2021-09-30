@@ -21,7 +21,8 @@
     "lodash": "^4.17.21",
     "node-telegram-bot-api": "^0.53.0",
     "paralleljs": "^1.1.0",
-    "simple-pancakeswap-sdk": "^1.1.1"
+    "simple-pancakeswap-sdk": "^1.1.1",
+    "tunnel": "0.0.6"
   },
   "devDependencies": {
     "jsonwebtoken": "^8.5.1",
